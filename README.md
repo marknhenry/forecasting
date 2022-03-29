@@ -10,8 +10,8 @@ Per folder.
 ``` bash 
 docker stop agitated_pirate # stop container
 docker rm agitated_pirate # remove container
-docker build -t "dev-env:v1" . # Build the image from Dockerfile
-docker run -it -d --name agitated_pirate "dev-env:v1" # Run container
+docker build -t "r-dev-env:v1" . # Build the image from Dockerfile
+docker run -it -d --name agitated_pirate "r-dev-env:v1" # Run container
 docker exec -it agitated_pirate /bin/bash # Log into container
 ```
 
@@ -19,7 +19,7 @@ docker exec -it agitated_pirate /bin/bash # Log into container
 ``` bash 
 docker stop tasty_pie # stop container
 docker rm tasty_pie # remove container
-docker build -t "dev-env:v1" . # Build the image from Dockerfile
-docker run -it -d --name tasty_pie "dev-env:v1" # Run container
+docker build -t "py-dev-env:v1" . # Build the image from Dockerfile
+docker run -it -d --name tasty_pie "py-dev-env:v1" # Run container
 docker exec -it tasty_pie /bin/bash # Log into container
 ```
