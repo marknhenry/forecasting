@@ -4,18 +4,8 @@
 # forecasting
 
 ## Setting Up
-Per folder.  
+Container has Jupyter with both Python and R
 
-### For R-base container: 
-``` bash 
-docker stop agitated_pirate # stop container
-docker rm agitated_pirate # remove container
-docker build -t "r-dev-env:v1" . # Build the image from Dockerfile
-docker run -it -d --name agitated_pirate "r-dev-env:v1" # Run container
-docker exec -it agitated_pirate /bin/bash # Log into container
-```
-
-### For python container: 
 ``` bash 
 docker stop tasty_pie # stop container
 docker rm tasty_pie # remove container
