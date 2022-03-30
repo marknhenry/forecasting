@@ -22,5 +22,8 @@ RUN conda update -n base -c defaults conda -y \
   && conda install -y nb_conda pandas matplotlib autopep8 ipykernel \
   && conda clean -a
 
-RUN R -e "install.packages(c('tsibble', 'tidyverse', 'tsibbledata', 'feasts'))" \
+RUN R -e "install.packages('tsibble',dependencies=TRUE, repos='http://cran.rstudio.com/')" \
+    && R -e "install.packages('tidyverse',dependencies=TRUE, repos='http://cran.rstudio.com/')" \
+    && R -e "install.packages('tsibbledata',dependencies=TRUE, repos='http://cran.rstudio.com/')" \
+    && R -e "install.packages('feasts',dependencies=TRUE, repos='http://cran.rstudio.com/')" \
     && rm -rf /tmp/*
