@@ -20,7 +20,7 @@ RUN conda update -n base -c defaults conda -y \
   && conda init bash \
   && conda install -y -c r r-irkernel \
   && conda install -y nb_conda pandas matplotlib autopep8 ipykernel \
-  && conda clean -a \
+  && conda clean -a
 
 RUN R -e "install.packages(c('tsibble', 'tidyverse', 'tsibbledata', 'feasts'))" \
     && rm -rf /tmp/*
