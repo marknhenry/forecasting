@@ -30,6 +30,7 @@ def seasonal_plotter(a10, series_name, period, filename='result.jpg'):
         period_child_col = 'Hour'
         periods = df['period_col'].unique()
         periods_count = len(periods)
+        df.to_csv('intermediate.csv')
 
     cmap = mpl.cm.winter
     norm = mpl.colors.Normalize(vmin=0, vmax=periods_count)
@@ -65,8 +66,9 @@ def seasonal_plotter(a10, series_name, period, filename='result.jpg'):
         return ax
 
     # show all complete
-    for i in range(1, periods_count-1):
-        seasonal_plotter_single(ax, i)
+    # for i in range(1, periods_count-1):
+    #     seasonal_plotter_single(ax, i)
+    seasonal_plotter_single(ax, 2)
 
     # for printing the first series
     # seasonal_plotter(ax,0, special=True)
