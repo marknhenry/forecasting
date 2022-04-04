@@ -12,6 +12,7 @@ def seasonal_plotter(a10, series_name):
     """
     
     df = a10.copy()
+    df.index.names = ['Date']
     df.reset_index(inplace=True)
     df['Year'] = [d.year for d in df.Date]
     df['month'] = [d.strftime('%b') for d in df.Date]
@@ -35,12 +36,12 @@ def seasonal_plotter(a10, series_name):
         ax.plot(to_plot['month'], to_plot[series_name], color=cmap(norm(counter))) 
 
         #add text at end
-        ax.text(df.loc[df.Year==years[3], :].shape[0]-0.95, # always a constant
+        ax.text(df.loc[df.Year==years[1], :].shape[0]-0.95, # always a constant
             df.loc[df.Year==years[counter], series_name][-1:].values[0], # last value of the year
             years[counter], color=cmap(norm(counter)), fontsize=10) 
 
         #add text at start
-        ax.text(df.loc[df.Year==years[3], :].shape[0]-12.4,
+        ax.text(df.loc[df.Year==years[1], :].shape[0]-12.4,
             df.loc[df.Year==years[counter], series_name][0:1].values[0],
             years[counter], color=cmap(norm(counter)), fontsize=10) 
 
@@ -62,3 +63,4 @@ def seasonal_plotter(a10, series_name):
     plt.gca().set(xlim=(-0.5, 11.5), ylim=(2, 30), ylabel='Drug Sales$', xlabel='Month')
     # plt.yticks(fontsize=12, alpha=.7)
     plt.show()
+    plt.savefig('result.jpg')
