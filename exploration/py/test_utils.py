@@ -10,20 +10,21 @@ import os
 # ************************************   Part 1   ******************************************
 # ******************************************************************************************
 
-print(os.getcwd())
-
 temps = pd.read_csv('data/vic_elec.csv', parse_dates=[['Date', 'Time']])
 elec_demand = (
     temps
-    .head(1000)
     .set_index('Date_Time')
     .drop(['Index', 'Date.1', 'Temperature', 'Holiday'], axis=1)
     .resample('1H')
     .sum()
 )
 
-print(elec_demand.head())
 seasonal_plotter(elec_demand, 'Demand', period='day', filename='Electricity Demand')
+# TODO: Add 0.1 to max and min values of y axis
+# FIXME: check why there are odd values in month 2
+# TODO: Find missing values of the daylight savings months
+# TODO: combine code in utils 1 and 2 for year/month and day/hour, 
+# TODO: How do we generalize for all periods? 
 
 # ******************************************************************************************
 # ************************************   Part 2   ******************************************
