@@ -20,6 +20,7 @@ def seasonal_plotter(a10, series_name, filename, period):
     min_y = min_y-(max_y-min_y)*0.05
     max_y = max_y+(max_y-min_y)*0.05
 
+    fig, ax = plt.subplots(figsize=(16, 8), dpi=80)
 
     if (period.lower() == 'year'):
         df['period_col'] = [d.year for d in df.Date]
@@ -29,34 +30,54 @@ def seasonal_plotter(a10, series_name, filename, period):
         min_x = -0.5 # 12 months in a year
         max_x = 11.5
         x_units = 'Month'
-
-    df
+    
+    if (period.lower() == 'day'):
+        df['period_col'] = [d.strftime('%Y-%m-%d') for d in df.Date]  # day
+        df['period_col_child'] = [d.strftime('%H') for d in df.Date]  # hour
+        periods = df['period_col'].unique()
+        periods_count = len(periods)
+        min_x = -0.5 # 24 hours in a day
+        max_x = 23.5
+        x_units = 'Hour'
+    
+    if (period.lower() == 'week'):
+        df['period_col'] = [d.strftime('%Y-%U') for d in df.Date]  # week
+        # df['period_col_child'] = [d.strftime('%w') for d in df.Date]  # day
+        # df['period_col_child'] = [d.strftime('%U-%H') for d in df.Date]  # day
+        # df['Week'] = [d.strftime('%U') for d in df.Date]
+        df['DayOfWeek'] = [d.strftime('%w') for d in df.Date]
+        df['Hour'] = [d.strftime('%H') for d in df.Date]
+        df['period_col_child'] = int(df['Hour']) * int(df['DayOfWeek']+1)
+        periods = df['period_col'].unique()
+        periods_count = len(periods)
+        min_x = -0.5 # 7 days in a week, but looking hourly
+        max_x = (24*7)-.5
+        x_units = 'Day'
 
     cmap = mpl.cm.winter
     norm = mpl.colors.Normalize(vmin=0, vmax=periods_count)
-
-    fig, ax = plt.subplots(figsize=(16, 8), dpi=80)
     
-    def seasonal_plotter_single(ax, counter):
+    def seasonal_plotter_single(ax, counter, add_text=False):
 
-        #get year
+        #get period
         the_period = periods[counter] 
 
-        #get monthly data for year
+        #get child period for period
         to_plot = df.query('period_col == @the_period').filter(['period_col_child',series_name]) 
 
         #plot line
-        ax.plot(to_plot['period_col_child'], to_plot[series_name], color=cmap(norm(counter))) 
+        ax.plot(to_plot['period_col_child'], to_plot[series_name], color=cmap(norm(counter)), linewidth=1) 
 
-        #add text at end
-        ax.text(df.loc[df['period_col']==periods[1], :].shape[0]-0.95, # always a constant
-            df.loc[df['period_col']==periods[counter], series_name][-1:].values[0], # last value of the year
-            periods[counter], color=cmap(norm(counter)), fontsize=10) 
+        if add_text: 
+            #add text at end
+            ax.text(df.loc[df['period_col']==periods[1], :].shape[0]-0.95, # always a constant
+                df.loc[df['period_col']==periods[counter], series_name][-1:].values[0], # last value of the year
+                periods[counter], color=cmap(norm(counter)), fontsize=10) 
 
-        #add text at start
-        ax.text(df.loc[df['period_col']==periods[1], :].shape[0]-12.4,
-            df.loc[df['period_col']==periods[counter], series_name][0:1].values[0],
-            periods[counter], color=cmap(norm(counter)), fontsize=10) 
+            #add text at start
+            ax.text(df.loc[df['period_col']==periods[1], :].shape[0]-12.4,
+                df.loc[df['period_col']==periods[counter], series_name][0:1].values[0],
+                periods[counter], color=cmap(norm(counter)), fontsize=10) 
 
         return ax
     
@@ -69,8 +90,6 @@ def seasonal_plotter(a10, series_name, filename, period):
 
     ax.set_title('{} per {}'.format(series_name, x_units), fontsize=20)
     plt.gca().set(xlim=(min_x, max_x), ylim=(min_y, max_y), ylabel=series_name, xlabel=x_units)
-    # plt.yticks(fontsize=12, alpha=.7)
-    
     plt.savefig(filename)
     plt.show()
     

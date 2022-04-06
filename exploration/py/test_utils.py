@@ -3,11 +3,26 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 import datetime
-from utils2 import seasonal_plotter
+from utils3 import seasonal_plotter
 import os
 
 # ******************************************************************************************
 # ************************************   Part 1   ******************************************
+# ******************************************************************************************
+
+# temps = pd.read_csv('data/vic_elec.csv', parse_dates=[['Date', 'Time']])
+# elec_demand = (
+#     temps
+#     .set_index('Date_Time')
+#     .drop(['Index', 'Date.1', 'Temperature', 'Holiday'], axis=1)
+#     .resample('1H')
+#     .sum()
+# )
+
+# seasonal_plotter(elec_demand, 'Demand', period='day', filename='Electricity Demand')
+
+# ******************************************************************************************
+# ************************************   Part 2   ******************************************
 # ******************************************************************************************
 
 temps = pd.read_csv('data/vic_elec.csv', parse_dates=[['Date', 'Time']])
@@ -19,7 +34,8 @@ elec_demand = (
     .sum()
 )
 
-seasonal_plotter(elec_demand, 'Demand', period='day', filename='Electricity Demand')
+seasonal_plotter(elec_demand, 'Demand', period='Week', filename='Electricity Demand')
+
 # TODO: Add 0.1 to max and min values of y axis
 # FIXME: check why there are odd values in month 2
 # TODO: Find missing values of the daylight savings months
@@ -27,7 +43,7 @@ seasonal_plotter(elec_demand, 'Demand', period='day', filename='Electricity Dema
 # TODO: How do we generalize for all periods? 
 
 # ******************************************************************************************
-# ************************************   Part 2   ******************************************
+# ************************************   Part 3   ******************************************
 # ******************************************************************************************
 
 # temps = pd.read_csv('data/PBS.csv')
