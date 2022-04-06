@@ -42,12 +42,7 @@ def seasonal_plotter(a10, series_name, filename, period):
     
     if (period.lower() == 'week'):
         df['period_col'] = [d.strftime('%Y-%U') for d in df.Date]  # week
-        # df['period_col_child'] = [d.strftime('%w') for d in df.Date]  # day
-        # df['period_col_child'] = [d.strftime('%U-%H') for d in df.Date]  # day
-        # df['Week'] = [d.strftime('%U') for d in df.Date]
-        df['DayOfWeek'] = [d.strftime('%w') for d in df.Date]
-        df['Hour'] = [d.strftime('%H') for d in df.Date]
-        df['period_col_child'] = int(df['Hour']) * int(df['DayOfWeek']+1)
+        df['period_col_child'] = df.Date
         periods = df['period_col'].unique()
         periods_count = len(periods)
         min_x = -0.5 # 7 days in a week, but looking hourly
@@ -65,8 +60,13 @@ def seasonal_plotter(a10, series_name, filename, period):
         #get child period for period
         to_plot = df.query('period_col == @the_period').filter(['period_col_child',series_name]) 
 
-        #plot line
-        ax.plot(to_plot['period_col_child'], to_plot[series_name], color=cmap(norm(counter)), linewidth=1) 
+        if (period.lower() == 'week'):
+            # to_plot['TempDate'] = pd.date_range("2012-01-01", periods=to_plot.shape[0], freq="H")
+            to_plot['counter'] = range(len(to_plot))
+            ax.plot(to_plot['counter'], to_plot[series_name], color=cmap(norm(i)), linewidth=1) 
+        else:
+            #plot line
+            ax.plot(to_plot['period_col_child'], to_plot[series_name], color=cmap(norm(counter)), linewidth=1) 
 
         if add_text: 
             #add text at end
@@ -90,6 +90,17 @@ def seasonal_plotter(a10, series_name, filename, period):
 
     ax.set_title('{} per {}'.format(series_name, x_units), fontsize=20)
     plt.gca().set(xlim=(min_x, max_x), ylim=(min_y, max_y), ylabel=series_name, xlabel=x_units)
+    if (period=='week'):
+        x_ticks=[]
+        week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        for i in range(7):
+            for j in range(12): 
+                x_ticks.append(' ')
+            x_ticks.append(week_days.pop(0))
+            for j in range(11): 
+                x_ticks.append(' ')
+        plt.xticks(range(168) , x_ticks)
+        ax.xaxis.set_ticks_position('none') 
     plt.savefig(filename)
     plt.show()
     
