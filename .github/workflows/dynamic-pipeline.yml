@@ -30,9 +30,9 @@ jobs:
             echo "Azure resource group created"
           fi
 
-    # - name: Deploy Databricks ARM deploy
-    #   uses: azure/arm-deploy@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #     resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-    #     template: ./arm-templates/databricksdeploy.json
+    - name: Deploy Databricks ARM deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
+        template: ./arm-templates/databricksdeploy.json
