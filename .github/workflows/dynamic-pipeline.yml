@@ -1,0 +1,38 @@
+on: [workflow_dispatch]
+
+env: 
+  RESOURCE_GROUP_NAME: 'mh-databricks-rg'
+  RESOURCE_GROUP_LOCATION: 'uaenorth'
+
+name: Databricks-IaC-Full
+jobs:
+  Deploy-Databricks-Clusters:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_NORG }}
+
+    - name: Create resource group
+      uses: Azure/CLI@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          if $(az group exists --name ${{ env.RESOURCE_GROUP_NAME }}) ; then
+            echo "Azure resource group already exists, skipping creation..."
+          else
+            az group create --name ${{ env.RESOURCE_GROUP_NAME }} --location ${{ env.RESOURCE_GROUP_LOCATION }}
+            echo "Azure resource group created"
+          fi
+
+    # - name: Deploy Databricks ARM deploy
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
+    #     template: ./arm-templates/databricksdeploy.json
