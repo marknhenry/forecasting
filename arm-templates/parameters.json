@@ -10,9 +10,6 @@
         },
         "tier": {
             "value": "standard"
-        },
-        "tagValues": {
-            "value": {}
         }
     }
 }
