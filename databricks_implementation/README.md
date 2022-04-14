@@ -13,3 +13,10 @@ docker build -t "forecast-dev-env:v2-databricks" . # Build the image from Docker
 docker run -it -d --name brick_pie "forecast-dev-env:v2-databricks" # Run container
 docker exec -it brick_pie /bin/bash # Log into container
 ```
+
+# Github Actions
+## On Azure CLI: 
+az ad sp create-for-rbac --name "GHCICD"--role contributor --scopes /subscriptions/{subscription_id}/resourceGroups/Databricks-MyProject --sdk-auth
+
+## Add results in Github Action Secret Called **AZURE_CREDENTIALS**
+## Add Subscription ID to another Github Secret called **SUBSCRIPTION**
