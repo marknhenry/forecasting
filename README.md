@@ -2,9 +2,9 @@
 [![License](https://img.shields.io/static/v1?label=License&message=MIT&color=blue)](https://www.linkedin.com/in/marknhenry/)
 
 # forecasting
-
+a
 ## Setting Up
-Container has Jupyter with both Python and R
+Container has Jupyter with Python
 
 ``` bash 
 docker stop tasty_pie # stop container
