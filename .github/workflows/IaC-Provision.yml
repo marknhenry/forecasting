@@ -4,7 +4,7 @@ env:
   RESOURCE_GROUP_NAME: 'mh-databricks-rg'
   RESOURCE_GROUP_LOCATION: 'uaenorth'
 
-name: Databricks-IaC-Full
+name: IaC-Provision
 jobs:
   Deploy-Databricks-Clusters:
     runs-on: ubuntu-latest

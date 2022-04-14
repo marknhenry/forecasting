@@ -4,7 +4,7 @@ env:
   RESOURCE_GROUP_NAME: 'mh-databricks-rg'
   RESOURCE_GROUP_LOCATION: 'uaenorth'
 
-name: Delete-ResourceGroup
+name: IaC-Deprovision
 jobs:
   Deploy-Databricks-Clusters:
     runs-on: ubuntu-latest
