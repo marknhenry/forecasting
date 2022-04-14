@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/static/v1?label=License&message=MIT&color=blue)](https://www.linkedin.com/in/marknhenry/)
 
 # forecasting using Databricks
-a
+
 ## Setting Up
 Container has Jupyter with both Python
 

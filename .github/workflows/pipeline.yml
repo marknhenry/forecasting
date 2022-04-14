@@ -67,10 +67,10 @@ on:
         default: 'KeyVault-MyProject'
 
       # This is a KeyVault for holding the Service Principal to make Databricks API calls and to hold Databricks KeyVault backed Secrets
-      SUBSCRIPTION_ID:
-        description: 'Azure Subscription Id'
-        required: true
-        default: ${{ secrets.SUBSCRIPTION }}
+      # ${{ secrets.SUBSCRIPTION }}:
+      #   description: 'Azure Subscription Id'
+      #   required: true
+      #   default: ${{ secrets.SUBSCRIPTION }}
 
       # Inialize the system
       # Note: We only want to run the KeyVault ARM template once.  If you keep re-running, then you will OVERWRITE your values
