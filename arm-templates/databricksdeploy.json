@@ -15,7 +15,6 @@
             "type": "string"
         },
         "tagValues": {
-            "defaultValue": "Github-Actions-IaC",
             "type": "object"
         }
     },
@@ -38,7 +37,7 @@
             },
             "type": "Microsoft.Databricks/workspaces",
             "dependsOn": [],
-            "tags": "[parameters('tagValues')]"
+            "tags": {}
         }
     ]
 }
