@@ -18,7 +18,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_NORG }}
 
-    - name: Create resource group
+    - name: Create resource group if needed
       uses: Azure/CLI@v1
       with:
         inlineScript: |
@@ -30,7 +30,7 @@ jobs:
             echo "Azure resource group created"
           fi
 
-    - name: Deploy Databricks ARM deploy
+    - name: Databricks ARM deploy
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
