@@ -3,13 +3,20 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "workspaceName": {
-            "value": "db-forecasting-ws"
+            "value": "mh-databricks-rg"
         },
         "location": {
             "value": "uaenorth"
         },
         "tier": {
             "value": "standard"
+        },
+        "tagValues": {
+            "value": {
+                "databricks-environment": "true",
+                "github-actions": "true",
+                "iac": "true"
+            }
         }
     }
 }
