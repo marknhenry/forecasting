@@ -1,0 +1,27 @@
+on: [workflow_dispatch]
+
+env: 
+  RESOURCE_GROUP_NAME: 'mh-databricks-rg'
+  RESOURCE_GROUP_LOCATION: 'uaenorth'
+
+name: Delete-ResourceGroup
+jobs:
+  Deploy-Databricks-Clusters:
+    runs-on: ubuntu-latest
+    steps:
+
+    # - name: Checkout Code
+    #   uses: actions/checkout@v2
+
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_NORG }}
+
+    - name: Delete resource group
+      uses: Azure/CLI@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          az group delete --name ${{ env.RESOURCE_GROUP_NAME }}
+          echo "Azure resource group Deleted"
