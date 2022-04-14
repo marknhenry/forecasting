@@ -23,5 +23,5 @@ jobs:
       with:
         inlineScript: |
           #!/bin/bash
-          az group delete --name ${{ env.RESOURCE_GROUP_NAME }}
+          az group delete --name ${{ env.RESOURCE_GROUP_NAME }} --yes
           echo "Azure resource group Deleted"
