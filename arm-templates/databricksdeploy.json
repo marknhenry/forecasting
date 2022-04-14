@@ -11,6 +11,9 @@
         "tier": {
             "defaultValue": "standard",
             "type": "string"
+        },
+        "tagValues": {
+            "type": "object"
         }
     },
     "variables": {
@@ -31,7 +34,8 @@
                 "parameters": {}
             },
             "type": "Microsoft.Databricks/workspaces",
-            "dependsOn": []
+            "dependsOn": [], 
+            "tags": "[parameters('tagValues')]"
         }
     ]
 }
