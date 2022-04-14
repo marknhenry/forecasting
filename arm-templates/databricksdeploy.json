@@ -3,11 +3,9 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "defaultValue": "uaenorth",
             "type": "string"
         },
         "workspaceName": {
-            "defaultValue": "db-forecasting-ws",
             "type": "string"
         },
         "tier": {
@@ -37,7 +35,7 @@
             },
             "type": "Microsoft.Databricks/workspaces",
             "dependsOn": [],
-            "tags": {}
+            "tags": "[parameters('tagValues')]"
         }
     ]
 }

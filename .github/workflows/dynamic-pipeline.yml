@@ -36,3 +36,4 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
         template: ./arm-templates/databricksdeploy.json
+        parameters: ./arm-templates/parameters.json
