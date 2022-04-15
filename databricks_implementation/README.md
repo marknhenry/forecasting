@@ -19,3 +19,6 @@ docker exec -it brick_pie /bin/bash # Log into container
 az ad sp create-for-rbac --name "GHCICD" --role contributor --scopes /subscriptions/{subscription_id} --sdk-auth
 
 ## Add results in Github Action Secret Called **AZURE_CREDENTIALS_NORG** (NORG: No Resource Group)
+
+## Setting up Databricks CLI
+pip install databricks-cli
