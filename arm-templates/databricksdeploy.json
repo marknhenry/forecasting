@@ -14,6 +14,48 @@
         },
         "tagValues": {
             "type": "object"
+        },
+        "stgAccountName": {
+            "type": "string",
+            "defaultValue": "mhdatabrickssa",
+            "metadata": {
+                "description": "Storage account name."
+            }
+        },
+        "stgAccountType": {
+            "type": "string",
+            "defaultValue": "Standard_RAGRS",
+            "metadata": {
+                "description": "Storage account type."
+            }
+        },
+        "stgKind": {
+            "type": "string",
+            "defaultValue": "StorageV2",
+            "metadata": {
+                "description": "Storage account kind."
+            }
+        },
+        "stgAccessTier": {
+            "type": "string",
+            "defaultValue": "Cool",
+            "metadata": {
+                "description": "Storage account tier."
+            }
+        },
+        "stgIsHnsEnabled": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable ADLS Gen2."
+            }
+        },
+        "aiName": {
+            "type": "string",
+            "defaultValue": "mhdatabricksai",
+            "metadata": {
+                "description": "Application Insights name."
+            }
         }
     },
     "variables": {
@@ -34,8 +76,42 @@
                 "parameters": {}
             },
             "type": "Microsoft.Databricks/workspaces",
-            "dependsOn": [], 
+            "dependsOn": [],
             "tags": "[parameters('tagValues')]"
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('stgAccountName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "accessTier": "[parameters('stgAccessTier')]",
+                "isHnsEnabled": "[parameters('stgIsHnsEnabled')]"
+            },
+            "dependsOn": [],
+            "sku": {
+                "name": "[parameters('stgAccountType')]"
+            },
+            "kind": "[parameters('stgKind')]",
+            "tags": {
+                "Purpose": "Demo",
+                "Project": "azure-databricks-mlops-mlflow"
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2014-08-01",
+            "name": "[parameters('aiName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "ApplicationId": "[parameters('aiName')]",
+                "Application_Type": "web",
+                "Flow_Type": "Redfield"
+            },
+            "tags": {
+                "Purpose": "Demo",
+                "Project": "azure-databricks-mlops-mlflow"
+            }
         }
     ]
 }
