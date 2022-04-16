@@ -37,3 +37,43 @@ jobs:
         resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
         template: ./arm-templates/databricksdeploy.json
         parameters: ./arm-templates/parameters.json
+
+    - name: Create Clusters
+      uses: azure/CLI@v1
+      with: 
+        inlineScript: |
+          #!/bin/bash
+          
+          # Install Databricks CLI
+
+          pip install databricks-cli
+
+          # Get Authentication Token
+
+          curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+          https://login.microsoftonline.com/${{ secrets.AZURE_CREDENTIALS_TENANTID }}/oauth2/v2.0/token \
+          -d 'client_id=${{ secrets.AZURE_CREDENTIALS_CLIENTID }}' \
+          -d 'grant_type=client_credentials' \
+          -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+          -d 'client_secret=${{ secrets.AZURE_CREDENTIALS_CLIENTSECRET }}' > temp.json
+          
+          export DATABRICKS_AAD_TOKEN=$(jq -r .access_token temp.json)
+
+          # To use az databricks without prompt
+          az config set extension.use_dynamic_install=yes_without_prompt
+
+          # Get workspace to json file
+          az databricks workspace show --resource-group mh-databricks-rg --name mh-databricks-ws > temp.json
+
+          # Extract workspace ID to environment variable
+          export DATABRICKS_HOST="https://"$(jq -r .workspaceUrl temp.json)
+
+          rm temp.json
+
+          # Configure Databricks
+          databricks configure --aad-token --host $DATABRICKS_HOST
+
+          # Create a cluster
+          databricks clusters create --json-file create-cluster.json
+
+          echo "Databricks workspace and cluster created successfully!"

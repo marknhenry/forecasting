@@ -4,7 +4,7 @@ ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
 
 RUN apt-get update  \
-    && apt-get install -yq tzdata sudo \
+    && apt-get install -yq tzdata sudo jq \
     && ln -fs /usr/share/zoneinfo/Asia/Dubai /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata \
     && apt-get install -y wget graphviz libgraphviz-dev unzip git sudo \
