@@ -49,7 +49,7 @@ jobs:
         parameters: ./arm-templates/parameters.json
     
     - name: Create Clusters
-      uses: azure/arm-deploy@v1
+      uses: azure/CLI@v1
       with: 
         inlineScript: |
           #!/bin/bash
