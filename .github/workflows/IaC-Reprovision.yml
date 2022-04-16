@@ -18,6 +18,16 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Delete resource group if exists
+      uses: Azure/CLI@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          if $(az group exists --name ${{ env.RESOURCE_GROUP_NAME }}) ; then
+            az group delete --name ${{ env.RESOURCE_GROUP_NAME }} --yes
+            echo "Azure resource group Deleted"
+          fi
+
     - name: Create resource group if needed
       uses: Azure/CLI@v1
       with:
