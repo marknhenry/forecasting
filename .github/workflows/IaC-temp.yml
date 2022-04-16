@@ -2,11 +2,12 @@ on: [workflow_dispatch]
 
 env: 
   RESOURCE_GROUP_NAME: 'mh-databricks-rg'
+  WWORKSPACE_NAME: 'mh-databricks-WS'
   RESOURCE_GROUP_LOCATION: 'uaenorth'
 
-name: IaC-Create-Cluster
+name: IaC-Temp
 jobs:
-  Only-Cluster-Job:
+  Temp-Job:
     runs-on: ubuntu-latest
     steps:
 
@@ -39,21 +40,29 @@ jobs:
           
           export DATABRICKS_AAD_TOKEN=$(jq -r .access_token temp.json)
 
+          echo "[[MARKS LOGGING]]: Databricks Authentication Token Set"
+
           # To use az databricks without prompt
           az config set extension.use_dynamic_install=yes_without_prompt
 
+          sleep 60s
+
           # Get workspace to json file
-          az databricks workspace show --resource-group mh-databricks-rg --name mh-databricks-ws > temp.json
+          az databricks workspace show --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WORKSPACE_NAME }} > temp.json
 
           # Extract workspace ID to environment variable
           export DATABRICKS_HOST="https://"$(jq -r .workspaceUrl temp.json)
+
+          echo "[[MARKS LOGGING]]: Databricks Host Set"
 
           rm temp.json
 
           # Configure Databricks
           databricks configure --aad-token --host $DATABRICKS_HOST
 
+          echo "[[MARKS LOGGING]]: Databricks Config file set"
+
           # Create a cluster
           databricks clusters create --json-file create-cluster.json
 
-          echo "Databricks workspace and cluster created successfully!"
+          echo "[[MARKS LOGGING]]: Databricks Workspace and Cluster created successfully"

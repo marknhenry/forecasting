@@ -2,6 +2,7 @@ on: [workflow_dispatch]
 
 env: 
   RESOURCE_GROUP_NAME: 'mh-databricks-rg'
+  WWORKSPACE_NAME: 'mh-databricks-WS'
   RESOURCE_GROUP_LOCATION: 'uaenorth'
 
 name: IaC-Reprovision
@@ -25,7 +26,7 @@ jobs:
           #!/bin/bash
           if $(az group exists --name ${{ env.RESOURCE_GROUP_NAME }}) ; then
             az group delete --name ${{ env.RESOURCE_GROUP_NAME }} --yes
-            echo "Azure resource group Deleted"
+            echo "[[MARKS LOGGING]]: Azure resource group Deleted"
           fi
 
     - name: Create resource group if needed
@@ -34,10 +35,10 @@ jobs:
         inlineScript: |
           #!/bin/bash
           if $(az group exists --name ${{ env.RESOURCE_GROUP_NAME }}) ; then
-            echo "Azure resource group already exists, skipping creation..."
+            echo "[[MARKS LOGGING]]: Azure resource group already exists, skipping creation..."
           else
             az group create --name ${{ env.RESOURCE_GROUP_NAME }} --location ${{ env.RESOURCE_GROUP_LOCATION }}
-            echo "Azure resource group created"
+            echo "[[MARKS LOGGING]]: Azure resource group created"
           fi
 
     - name: Databricks ARM deploy
@@ -69,21 +70,29 @@ jobs:
           
           export DATABRICKS_AAD_TOKEN=$(jq -r .access_token temp.json)
 
+          echo "[[MARKS LOGGING]]: Databricks Authentication Token Set"
+
           # To use az databricks without prompt
           az config set extension.use_dynamic_install=yes_without_prompt
 
+          sleep 60s
+
           # Get workspace to json file
-          az databricks workspace show --resource-group mh-databricks-rg --name mh-databricks-ws > temp.json
+          az databricks workspace show --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WORKSPACE_NAME }} > temp.json
 
           # Extract workspace ID to environment variable
           export DATABRICKS_HOST="https://"$(jq -r .workspaceUrl temp.json)
+
+          echo "[[MARKS LOGGING]]: Databricks Host Set"
 
           rm temp.json
 
           # Configure Databricks
           databricks configure --aad-token --host $DATABRICKS_HOST
 
+          echo "[[MARKS LOGGING]]: Databricks Config file set"
+
           # Create a cluster
           databricks clusters create --json-file create-cluster.json
 
-          echo "Databricks workspace and cluster created successfully!"
+          echo "[[MARKS LOGGING]]: Databricks Workspace and Cluster created successfully"
