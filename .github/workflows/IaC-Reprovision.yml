@@ -2,7 +2,7 @@ on: [workflow_dispatch]
 
 env: 
   RESOURCE_GROUP_NAME: 'mh-databricks-rg'
-  WWORKSPACE_NAME: 'mh-databricks-WS'
+  WORKSPACE_NAME: 'mh-databricks-ws'
   RESOURCE_GROUP_LOCATION: 'uaenorth'
 
 name: IaC-Reprovision
