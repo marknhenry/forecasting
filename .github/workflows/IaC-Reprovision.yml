@@ -47,3 +47,17 @@ jobs:
         resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
         template: ./arm-templates/databricksdeploy.json
         parameters: ./arm-templates/parameters.json
+    
+    - name: Create Clusters
+      uses: azure/arm-deploy@v1
+      with: 
+        inlineScript: |
+          #!/bin/bash
+          export DATABRICKS_AAD_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+          https://login.microsoftonline.com/${{ secrets.AZURE_CREDENTIALS_TENANTID }}/oauth2/v2.0/token \
+          -d 'client_id=${{ secrets.AZURE_CREDENTIALS_CLIENTID }}' \
+          -d 'grant_type=client_credentials' \
+          -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+          -d 'client_secret=${{ secrets.AZURE_CREDENTIALS_CLIENTSECRET }}')
+          echo "Setting DATABRICKS_AAD_TOKEN"
+          echo $DATABRICKS_AAD_TOKEN
