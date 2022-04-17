@@ -45,8 +45,6 @@ jobs:
           # To use az databricks without prompt
           az config set extension.use_dynamic_install=yes_without_prompt
 
-          sleep 60s
-
           # Get workspace to json file
           az databricks workspace show --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WORKSPACE_NAME }} > temp.json
 
@@ -63,6 +61,6 @@ jobs:
           echo "[[MARKS LOGGING]]: Databricks Config file set"
 
           # Create a cluster
-          databricks clusters create --json-file create-cluster.json
+          databricks repos create --url https://github.com/marknhenry/forecasting --provider gitHub --path /Repo/mahenry@microsoft.com/fc-github
 
           echo "[[MARKS LOGGING]]: Databricks Workspace and Cluster created successfully"
