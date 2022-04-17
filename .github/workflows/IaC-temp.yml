@@ -61,6 +61,6 @@ jobs:
           echo "[[MARKS LOGGING]]: Databricks Config file set"
 
           # Create a cluster
-          databricks repos create --url https://github.com/marknhenry/forecasting --provider gitHub --path /Repo/mahenry@microsoft.com/fc-github
+          databricks repos create --url https://github.com/marknhenry/forecasting --provider gitHub --path /Repos/mahenry@microsoft.com/fc-github
 
           echo "[[MARKS LOGGING]]: Databricks Workspace and Cluster created successfully"
