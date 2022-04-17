@@ -56,4 +56,7 @@ Your command will generate something like the above, but will have different val
 | AZURE_SUBSCRIPTION_ID | value from `subscriptionId` from output |
 
 # IaC Workflows
-Go to the Actions tab, run the IaC-Provision workflow.  You should have a Databricks WS with a basic cluster provisioned.  .  
+Go to the Actions tab, run the IaC-Provision workflow.  You should have a Databricks WS with a basic cluster provisioned.
+
+# Getting Started with Code
+Log on to the databricks ws just created and clone this repo into your workspace
