@@ -75,8 +75,6 @@ jobs:
           # To use az databricks without prompt
           az config set extension.use_dynamic_install=yes_without_prompt
 
-          sleep 60s
-
           # Get workspace to json file
           az databricks workspace show --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WORKSPACE_NAME }} > temp.json
 
