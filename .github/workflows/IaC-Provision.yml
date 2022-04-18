@@ -73,6 +73,8 @@ jobs:
           # Configure Databricks
           databricks configure --aad-token --host $DATABRICKS_HOST
 
+          sleep 60s
+
           # Create a cluster
           databricks clusters create --json-file create-cluster.json
 

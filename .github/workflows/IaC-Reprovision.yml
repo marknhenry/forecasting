@@ -90,6 +90,8 @@ jobs:
 
           echo "[[MARKS LOGGING]]: Databricks Config file set"
 
+          sleep 60s
+
           # Create a cluster
           databricks clusters create --json-file create-cluster.json
 
