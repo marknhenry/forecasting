@@ -59,4 +59,8 @@ Your command will generate something like the above, but will have different val
 Go to the Actions tab, run the IaC-Provision workflow.  You should have a Databricks WS with a basic cluster provisioned.
 
 # Getting Started with Code
-Log on to the databricks ws just created and clone this repo into your workspace
+Log into Databricks and follow the instructions [here](https://docs.microsoft.com/en-us/azure/databricks/repos/#--configure-your-git-integration-with-azure-databricks)!
+
+Clone this repo into ADB using the instructions [here](https://docs.microsoft.com/en-us/azure/databricks/repos/#clone-a-remote-git-repository).  
+
+Open the `databricks_implementation` folder, right click the first file (or click the arrow at the end of the file name) and `open in new window`
